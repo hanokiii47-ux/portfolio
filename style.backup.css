@@ -1,0 +1,1060 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #E1E8EA;
+    margin: 0;
+    padding: 0;
+}
+
+/* 主容器 */
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #E1E8EA;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 容器 28 - 导航栏 */
+.navbar {
+    width: 100%;
+    height: 4.375vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 1.5vw;
+    padding-top: 1.125vw;
+    position: relative;
+    z-index: 100;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+/* 组 27 - 左侧品牌标签（仅背景切图） */
+.navbar-left {
+    width: 9.115vw;
+    height: 4.375vw;
+    padding: 0;
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+/* 组 24 - 中间导航菜单 */
+.navbar-center {
+    border-radius: 308px;
+    border: 0.5px solid #FFFFFF;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0.234vw 2.083vw;
+    gap: 4.167vw;
+    height: 1.667vw;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-center:hover {
+    background-color: #128BE6;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 1.198vw;
+    gap: 0.417vw;
+    padding: 0 0.417vw;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover .nav-text {
+    color: #FFFF1E;
+}
+
+.nav-item:hover .nav-icon-default {
+    display: none;
+}
+
+.nav-icon-hover {
+    display: none;
+}
+
+.nav-item:hover .nav-icon-hover {
+    display: block;
+}
+
+.nav-icon {
+    width: 0.833vw;
+    height: 0.833vw;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.nav-text {
+    color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+    font-size: 0.938vw;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* 微信二维码浮层 */
+.wechat-popup {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.wechat-popup.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.wechat-popup-content {
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.wechat-qr-code {
+    width: 133px;
+    height: 133px;
+    display: block;
+    object-fit: cover;
+}
+
+/* 组 28 - 右侧标签（仅背景切图） */
+.navbar-right {
+    width: 7.5vw;
+    height: 2.917vw;
+    padding: 0;
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+/* 背景图片 - 原始效果 */
+.background-image {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url('https://p0.meituan.net/ingee/2a849bcdae499aa2a306686e2131c2d2758567.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* 前景层 - 被照亮的彩色版本（默认被mask遮住） */
+.background-reveal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url('https://p0.meituan.net/ingee/40a35d0f820a4190e9e16ebb1aab1bbb773274.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 白色光晕层 */
+.glow-layer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 容器 23 - 主要内容容器 */
+.content-wrapper {
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    z-index: 2;
+    gap: 7.22%;
+}
+
+/* 装饰元素容器 8 */
+.decoration-container {
+    width: 84.43%;
+    aspect-ratio: 1621.1 / 294;
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    transform: scale(0.88);
+    transform-origin: center top;
+}
+
+.decoration-item {
+    position: absolute;
+    object-fit: contain;
+}
+
+/* 装饰元素位置 - 百分比 */
+.deco-1 {
+    width: 4.55%;
+    aspect-ratio: 73.7 / 136.1;
+    left: 0%;
+    top: 42.01%;
+}
+
+.deco-2 {
+    width: 13.35%;
+    aspect-ratio: 216.4 / 256.3;
+    left: 2.37%;
+    top: 9.9%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-2.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-3 {
+    width: 12.70%;
+    aspect-ratio: 205.7 / 224.3;
+    left: 10.9%;
+    top: 22.18%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-3.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-4 {
+    width: 4.75%;
+    aspect-ratio: 77 / 53.3;
+    left: 19.9%;
+    top: 54.42%;
+    z-index: 10;
+}
+
+.deco-5 {
+    width: 9.95%;
+    aspect-ratio: 161.4 / 215.7;
+    left: 22.03%;
+    top: 10.54%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-5.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-6 {
+    width: 10.57%;
+    aspect-ratio: 171.5 / 217.6;
+    left: 29.98%;
+    top: 17.01%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-6.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-7 {
+    width: 11.76%;
+    aspect-ratio: 190.6 / 222.1;
+    left: 57.91%;
+    top: 8.74%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-7.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-8 {
+    width: 11.53%;
+    aspect-ratio: 186.8 / 201.3;
+    left: 66.06%;
+    top: 18.39%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-8.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-9 {
+    width: 8.39%;
+    aspect-ratio: 136.1 / 204.6;
+    left: 75.93%;
+    top: 22.48%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-9.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-10 {
+    width: 2.81%;
+    aspect-ratio: 45.6 / 153.6;
+    left: 82.15%;
+    top: 21.91%;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-10.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-11 {
+    width: 13.14%;
+    aspect-ratio: 213 / 242;
+    left: 84.24%;
+    top: 10.61%;
+    z-index: 10;
+    transition: transform 0.4s ease-out;
+}
+
+.deco-11.floating {
+    animation: floatingCloud 0.4s ease-in-out 1 !important;
+}
+
+.deco-12 {
+    width: 4.31%;
+    aspect-ratio: 69.9 / 117.1;
+    left: 95.69%;
+    top: 47.95%;
+}
+
+/* 镜像容器 - 优先级最高，在所有装饰元素上方 */
+.mirror-container {
+    position: absolute;
+    width: 22.3%;
+    aspect-ratio: 361.7 / 294;
+    left: 38.38%;
+    top: 0%;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.mirror-item {
+    position: absolute;
+    object-fit: contain;
+    z-index: 10;
+}
+
+.mirror-1 {
+    width: 31.9%;
+    aspect-ratio: 115.5 / 115.5;
+    left: 0%;
+    top: 60.88%;
+    z-index: 2;
+    transform-origin: center bottom;
+    animation: waveHandRhythm 1.8s ease-in-out infinite;
+}
+
+.mirror-2 {
+    width: 61.8%;
+    aspect-ratio: 223.6 / 281.7;
+    left: 19.75%;
+    top: 4.08%;
+    z-index: 1;
+}
+
+.mirror-3 {
+    width: 34.2%;
+    aspect-ratio: 123.9 / 84.3;
+    left: 30.7%;
+    top: 42.31%;
+    z-index: 2;
+    transition: opacity 0.4s ease;
+}
+
+.mirror-container:hover .mirror-3 {
+    opacity: 0;
+}
+
+.mirror-4 {
+    width: 31.9%;
+    aspect-ratio: 115.5 / 115.5;
+    right: 0%;
+    top: 60.88%;
+    z-index: 2;
+    transform-origin: center bottom;
+    animation: waveHandRhythm 1.8s ease-in-out infinite 0.15s;
+}
+
+/* 卡片容器 - 组 6 */
+.cards-container {
+    width: 60.55%;
+    aspect-ratio: 1163.9 / 350.3;
+    position: relative;
+    display: flex;
+    gap: 1.72%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.card {
+    position: absolute;
+    border-radius: 12px;
+    border: 1px solid #189CEC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.25vw;
+    cursor: pointer;
+    box-shadow: none;
+    flex-shrink: 0;
+    will-change: transform;
+}
+
+.card:hover {
+    box-shadow: none;
+}
+
+.card-1 {
+    width: 27.54%;
+    aspect-ratio: 320.3 / 290.1;
+    background: #FFFF1E;
+    color: #000;
+    transform: rotate(-5.562417984008789deg);
+    left: 1.14%;
+    top: 12.96%;
+    padding: 0;
+    overflow: visible;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-main-image {
+    position: absolute;
+    width: 66.81%;
+    height: 82.65%;
+    left: 8.75%;
+    top: 10.07%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.card-deco-image {
+    position: absolute;
+    width: 54.06%;
+    height: 56.52%;
+    right: 15px;
+    bottom: -15px;
+    object-fit: contain;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.card-1:hover .card-deco-image {
+    transform: scale(1.2);
+}
+
+.card-2 {
+    width: 27.48%;
+    aspect-ratio: 320 / 290;
+    background: #0FE5A9;
+    color: #000;
+    left: 23.88%;
+    top: 0%;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid #FFFF1E;
+}
+
+/* 卡片2主图片 */
+.card2-main-image {
+    position: absolute;
+    width: 62.19%;
+    height: 83.10%;
+    left: 8.75%;
+    top: 9.66%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+/* 卡片2装饰图片 */
+.card2-deco-image {
+    position: absolute;
+    width: 54.05%;
+    height: 56.53%;
+    right: calc(9.06% - 4px);
+    bottom: calc(3.45% - 4px);
+    object-fit: contain;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.card-2:hover .card2-deco-image {
+    transform: scale(1.2);
+}
+
+.card-3 {
+    width: 27.54%;
+    aspect-ratio: 320.3 / 290.1;
+    background: #FFFFFF;
+    color: #000;
+    transform: rotate(3.0250329971313477deg);
+    left: 47.18%;
+    top: 12.96%;
+    box-shadow: none;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid #FF71E2;
+}
+
+/* 卡片3主图片 */
+.card3-main-image {
+    position: absolute;
+    width: 47.81%;
+    height: 81.61%;
+    left: 8.75%;
+    top: 11.17%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+/* 卡片3装饰图片 */
+.card3-deco-image {
+    position: absolute;
+    width: 54.05%;
+    height: 56.53%;
+    right: calc(9.06% - 4px);
+    bottom: calc(3.45% - 4px);
+    object-fit: contain;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.card-3:hover .card3-deco-image {
+    transform: scale(1.2);
+}
+
+.card-4 {
+    width: 27.54%;
+    aspect-ratio: 320.3 / 290.1;
+    background: #FF71E2;
+    color: #000;
+    transform: rotate(4.327476978302002deg);
+    left: 71.61%;
+    top: 3.45%;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid #FFFF1E;
+}
+
+/* 卡片4主图片 */
+.card4-main-image {
+    position: absolute;
+    width: 58.50%;
+    height: 81.61%;
+    left: 8.75%;
+    top: 11.17%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+/* 卡片4装饰图片 */
+.card4-deco-image {
+    position: absolute;
+    width: 54.05%;
+    height: 56.53%;
+    right: calc(9.06% - 4px - 44px);
+    bottom: calc(3.45% - 4px);
+    object-fit: contain;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.card-4:hover .card4-deco-image {
+    transform: scale(1.2);
+}
+
+/* 动画定义 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatingCloud {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-3%) rotate(var(--rotation, 3deg));
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes waveHandRhythm {
+    0% {
+        transform: rotate(0deg);
+    }
+    /* 第一次摆动 - 快速摆到-20度 */
+    10% {
+        transform: rotate(-20deg);
+    }
+    /* 回到0 */
+    20% {
+        transform: rotate(0deg);
+    }
+    /* 第二次摆动 - 快速摆到-20度 */
+    30% {
+        transform: rotate(-20deg);
+    }
+    /* 回到0 */
+    40% {
+        transform: rotate(0deg);
+    }
+    /* 保持静止 */
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* 详情页面 - 遮罩层 */
+.detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.detail-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* 详情页面 - 左侧项目导航容器 */
+.detail-nav-container {
+    position: fixed;
+    top: 20%;
+    right: calc(50% + 37.5vw);
+    transform: translateY(0);
+    max-height: 90vh;
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.detail-nav-container.active {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.detail-nav-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: flex-end;
+    padding: 0;
+    box-sizing: border-box;
+    max-height: none;
+    overflow: visible;
+}
+
+.detail-nav-item {
+    width: 7.125vw;
+    height: 3.204vw;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    position: relative;
+}
+
+.detail-nav-item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.detail-nav-item-img-inactive {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* 未选中态显示灰色小图 */
+.detail-nav-item:not(.active) .detail-nav-item-img {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.detail-nav-item:not(.active) .detail-nav-item-img-inactive {
+    opacity: 1;
+}
+
+/* 选中态显示彩色图 */
+.detail-nav-item.active .detail-nav-item-img {
+    opacity: 1;
+}
+
+.detail-nav-item.active .detail-nav-item-img-inactive {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Hover 态：未选中状态下 hover 时渐变为选中态 */
+.detail-nav-item:not(.active):hover .detail-nav-item-img {
+    opacity: 1;
+}
+
+.detail-nav-item:not(.active):hover .detail-nav-item-img-inactive {
+    opacity: 0;
+}
+
+/* 详情页面 - 浏览窗口 */
+.detail-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75vw;
+    max-height: 90vh;
+    background: #FFFFFF;
+    border-radius: 12px;
+    z-index: 201;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: none;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.detail-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.detail-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.detail-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.detail-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+    color: #000;
+}
+
+.detail-body {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+    box-sizing: border-box;
+}
+
+.detail-body img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+/* 详情页面 - 特性展示区域 */
+.detail-features-section {
+    width: 100%;
+    background: #111111;
+    padding: 0.2vw 2.8vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.2vw;
+}
+
+.detail-features-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2.24vw;
+    flex-wrap: wrap;
+}
+
+.detail-feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 16.8vw;
+    flex-shrink: 0;
+}
+
+.detail-feature-box {
+    width: 16.8vw;
+    height: 29.87vw;
+    background: #1D1C1C;
+    border-radius: 0.67vw;
+    margin-bottom: 1.2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.detail-feature-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-feature-label {
+    color: #FFFFFFB2;
+    font-family: 'Alibaba PuHuiTi 2.0', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    font-size: 1.12vw;
+    text-align: center;
+}
+
+/* 详情页面 - 轮播区域 */
+.detail-carousel-section {
+    width: 100%;
+    background: #111111;
+    padding: calc(0.7vw * 2 / 3) 0 calc(0.7vw * 6);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.detail-carousel-container {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 0;
+}
+
+.detail-carousel-track {
+    display: flex;
+    gap: 1.49vw;
+    padding: 0 1.5vw;
+    will-change: transform;
+}
+
+.detail-carousel-item {
+    flex-shrink: 0;
+    width: 11.2vw;
+    height: 19.9vw;
+    background: #1D1C1C;
+    border-radius: 0.45vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-carousel-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 详情页面 - 回到顶部按钮 */
+.detail-scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+    font-size: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 202;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.detail-scroll-top:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-3px);
+}
+
+.detail-scroll-top.show {
+    display: flex;
+    opacity: 1;
+}
+
+/* 容器 29 - 页脚 */
+.footer {
+    width: 100%;
+    height: 4.375vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 1.5vw;
+    padding-bottom: 1.125vw;
+    position: absolute;
+    bottom: 0;
+    z-index: 100;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+/* 组 28 - 左侧标签（仅背景切图） */
+.footer-left {
+    width: 7.5vw;
+    height: 2.917vw;
+    padding: 0;
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+
+/* 组 27 - 右侧品牌标签（仅背景切图） */
+.footer-right {
+    width: 9.115vw;
+    height: 4.375vw;
+    padding: 0;
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}

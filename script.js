@@ -210,7 +210,19 @@ const cardDetails = {
         './项目1/15@1.5x.jpg'
     ],
     'card-2': [
-        'empty-container', // 项目2：空白容器
+        './项目2/16@1.5x.jpg',
+        './项目2/17@1.5x.jpg',
+        './项目2/18@1.5x.jpg',
+        './项目2/19@1.5x.jpg',
+        './项目2/20@1.5x.jpg',
+        './项目2/21@1.5x.jpg',
+        './项目2/22@1.5x.jpg',
+        'container-23', // 特殊标记：插入容器@23
+        './项目2/24@1.5x.jpg',
+        './项目2/25@1.5x.jpg',
+        './项目2/26@1.5x.jpg',
+        './项目2/28@1.5x.jpg',
+        './项目2/29@1.5x.jpg'
     ],
     'card-3': [
         'empty-container', // 项目3：空白容器
@@ -258,8 +270,25 @@ function openDetail(cardElement) {
             emptyContainer.className = 'detail-empty-container';
             emptyContainer.style.width = '100%';
             emptyContainer.style.height = '90vh';
-            emptyContainer.style.background = '#f5f5f5';
+            emptyContainer.style.background = '#111111';
             currentDetailBody.appendChild(emptyContainer);
+        } else if (item === 'container-23') {
+            // 插入容器@23 - 根据D2C数据还原
+            const container23 = document.createElement('div');
+            container23.className = 'detail-container-23';
+            container23.innerHTML = `
+                <!-- 背景图片 - 容器 402473 -->
+                <img src="https://p0.meituan.net/ingee/59b0308d75f82720ee32689e1b65879c822764.png" class="container-23-bg" alt="">
+                
+                <!-- 中间灰色遮罩容器 - image 容器 -->
+                <div class="container-23-middle-overlay">
+                    <video src="./案例2/冬战头图动效.mp4" class="container-23-video" autoplay loop muted playsinline></video>
+                </div>
+                
+                <!-- 底部图片 - 容器 402475 -->
+                <img src="https://p0.meituan.net/ingee/fec8f64a81f5326abb6b1ad28d211cbe5962.png" class="container-23-bottom" alt="">
+            `;
+            currentDetailBody.appendChild(container23);
         } else if (item === 'features') {
             // 插入特性展示区域
             const featuresSection = document.createElement('div');
