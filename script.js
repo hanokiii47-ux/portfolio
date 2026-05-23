@@ -225,7 +225,11 @@ const cardDetails = {
         './项目2/29@1.5x.jpg'
     ],
     'card-3': [
-        'empty-container', // 项目3：空白容器
+        './项目3-2/30@1.5x.jpg',
+        './项目3-2/31@1.5x.jpg',
+        './项目3-2/32@1.5x.jpg',
+        './项目3-2/33@1.5x.jpg',
+        './项目3-2/34@1.5x.jpg'
     ],
     'card-4': [
         'empty-container', // 项目4：空白容器
