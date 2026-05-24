@@ -233,7 +233,18 @@ const cardDetails = {
         './项目3-2/35@1.5x.jpg'
     ],
     'card-4': [
-        'empty-container', // 项目4：空白容器
+        './案例4/36@1.5x.jpg',
+        './案例4/37@1.5x.jpg',
+        './案例4/38@1.5x.jpg',
+        './案例4/39@1.5x.jpg',
+        './案例4/40@1.5x.jpg',
+        './案例4/41@1.5x.jpg',
+        './案例4/42@1.5x.jpg',
+        './案例4/43@1.5x.mp4',
+        './案例4/44@1.5x.jpg',
+        './案例4/45@1.5x.jpg',
+        './案例4/46@1.5x.mp4',
+        './案例4/48@1.5x.jpg'
     ]
 };
 
@@ -386,11 +397,24 @@ function openDetail(cardElement) {
             
             animateCarousel();
         } else {
-            // 添加图片
-            const img = document.createElement('img');
-            img.src = item;
-            img.alt = '';
-            currentDetailBody.appendChild(img);
+            // 添加图片或视频
+            if (item.endsWith('.mp4')) {
+                const video = document.createElement('video');
+                video.src = item;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.playsinline = true;
+                video.style.width = '100%';
+                video.style.height = 'auto';
+                video.style.display = 'block';
+                currentDetailBody.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = item;
+                img.alt = '';
+                currentDetailBody.appendChild(img);
+            }
         }
     });
     
