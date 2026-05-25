@@ -583,6 +583,11 @@ document.addEventListener('mouseleave', () => {
 
 // ===== 首页导航逻辑 =====
 
+// 0. 关于我 - 点击后打开职业经历窗口
+document.getElementById('nav-about-me').addEventListener('click', function() {
+    openAboutMe();
+});
+
 // 1. 关于项目 - 点击后打开项目1
 document.getElementById('nav-about-project').addEventListener('click', function() {
     const card1 = document.querySelector('.card-1');
@@ -602,3 +607,234 @@ navContact.addEventListener('mouseenter', function() {
 navContact.addEventListener('mouseleave', function() {
     wechatPopup.classList.remove('show');
 });
+
+// ===== 关于我窗口逻辑 =====
+
+// 获取关于我相关元素
+const aboutMeOverlay = document.querySelector('.about-me-overlay');
+const aboutMeModal = document.querySelector('.about-me-modal');
+const aboutMeContent = document.querySelector('.about-me-content');
+
+// 打开关于我窗口
+function openAboutMe() {
+    // 清空内容
+    aboutMeContent.innerHTML = '';
+    
+    // 创建关于我窗口内容
+    const headerImage = document.createElement('img');
+    headerImage.src = './images/about-me-bg.png';
+    headerImage.className = 'about-me-header-image';
+    headerImage.alt = '关于我背景';
+    aboutMeContent.appendChild(headerImage);
+    
+    // 创建主体内容容器
+    const bodyDiv = document.createElement('div');
+    bodyDiv.className = 'about-me-body';
+    
+    // 创建标题和日期部分
+    const titleSection = document.createElement('div');
+    titleSection.className = 'about-me-title-section';
+    
+    // 头像
+    const avatar = document.createElement('img');
+    avatar.src = './images/meituan-avatar.png';
+    avatar.className = 'about-me-avatar';
+    avatar.alt = '头像';
+    titleSection.appendChild(avatar);
+    
+    // 标题信息
+    const titleInfo = document.createElement('div');
+    titleInfo.className = 'about-me-title-info';
+    
+    const position = document.createElement('p');
+    position.className = 'about-me-position';
+    position.textContent = '美团-直播&短视频设计';
+    titleInfo.appendChild(position);
+    
+    const date = document.createElement('p');
+    date.className = 'about-me-date';
+    date.textContent = '23.09-至今';
+    titleInfo.appendChild(date);
+    
+    titleSection.appendChild(titleInfo);
+    bodyDiv.appendChild(titleSection);
+    
+    // 职业描述文本 - 美团
+    const description = document.createElement('p');
+    description.className = 'about-me-description';
+    description.textContent = `1. 担任美团直播业务营销方向主R，对接活动营销、直播间视觉、数字人工具等方向的创意视觉工作，负责质量把控与进度管理，带领实习及外包同学完成业务目标，多次拿到超预期结果。近期兼任直播C端产品设计主R。
+
+2. 负责数字人平台装修功能的素材丰富度提升。从定时上线高质量模版与AI装修功能共建两条线推进，最终直播画面评测达行业第一梯队，AI装修采纳率48%；同步拓展新玩法引入、数字人生成、画面治理等专项，助力画面质量稳步提升。
+
+3. 统一直播营销活动心智，提升页面浏览效率。面对长周期换肤、多业务协同等挑战，用组件化思维搭建高效交付流程；持续优化资源点位点击率，沉淀高质量模版，并逐步coding成网页工具供业务自助调用。
+
+4. 灵活支持组内及中心内重点项目，如短视频激励、新业务视觉探索等；凭借动效、品牌等多维设计能力推动了好结果，获得合作方认可。
+
+5. 积极探索AI工具与合作流程，尝试前端页面还原与动画coding直接交付下游；遇到机械化诉求主动用skills解放人力，如自制「操作步骤视频剪辑」skill，在B端侧收获好评。`;
+    bodyDiv.appendChild(description);
+    
+    // 第二段职位 - 字节跳动
+    const titleSection2 = document.createElement('div');
+    titleSection2.className = 'about-me-title-section';
+    titleSection2.style.marginTop = 'clamp(40px, 10%, 80px)';
+    
+    // 创建字节跳动的头像容器（用于横排排列）
+    const avatarContainer2 = document.createElement('div');
+    avatarContainer2.style.cssText = `
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: clamp(6px, 1.5%, 12px);
+    `;
+    
+    // 头像2-1 - 字节1
+    const avatar2_1 = document.createElement('img');
+    avatar2_1.src = 'file:///Users/hanokiw/Desktop/prot222/头像/矩形%2035052@1.5x.png';
+    avatar2_1.className = 'about-me-avatar';
+    avatar2_1.alt = '字节头像1';
+    avatarContainer2.appendChild(avatar2_1);
+    
+    // 头像2-2 - 字节2
+    const avatar2_2 = document.createElement('img');
+    avatar2_2.src = 'file:///Users/hanokiw/Desktop/prot222/头像/矩形%2035053@1.5x.png';
+    avatar2_2.className = 'about-me-avatar';
+    avatar2_2.alt = '字节头像2';
+    avatarContainer2.appendChild(avatar2_2);
+    
+    titleSection2.appendChild(avatarContainer2);
+    
+    // 标题信息2
+    const titleInfo2 = document.createElement('div');
+    titleInfo2.className = 'about-me-title-info';
+    
+    const position2 = document.createElement('p');
+    position2.className = 'about-me-position';
+    position2.textContent = '字节跳动-在线教育业务';
+    titleInfo2.appendChild(position2);
+    
+    const date2 = document.createElement('p');
+    date2.className = 'about-me-date';
+    date2.textContent = '2020.11 - 2023.09';
+    titleInfo2.appendChild(date2);
+    
+    titleSection2.appendChild(titleInfo2);
+    bodyDiv.appendChild(titleSection2);
+    
+    // 职业描述文本 - 字节跳动
+    const description2 = document.createElement('p');
+    description2.className = 'about-me-description';
+    description2.textContent = `历经运营创意设计与视觉创意设计两个阶段，服务瓜瓜龙启蒙、ByteLingo、TT/抖音Lingo等教育及语言学习产品。
+
+瓜瓜龙时期：负责产品端内运营（节日开屏、商城、转化活动）及大型市场营销活动（生日会、明星合拍、学科联名），建立了从小到大不同量级活动的执行方法论。
+
+后期转向视觉创意方向，积累多次0-1品牌设计经验，承担品牌调性定位、产品端视觉落地及订阅号设计规划等工作，在成熟产品运营思路之外，建立了对品牌初建和项目管理的经验。`;
+    bodyDiv.appendChild(description2);
+    
+    aboutMeContent.appendChild(bodyDiv);
+    
+    // 创建底部信息区域
+    const footer = document.createElement('div');
+    footer.className = 'about-me-footer';
+    
+    // 邮箱信息
+    const emailItem = document.createElement('div');
+    emailItem.className = 'about-me-contact-item';
+    emailItem.innerHTML = `
+        <p class="about-me-contact-text">hamerw@163.com</p>
+        <img src="./images/copy-icon.png" class="about-me-copy-icon" alt="复制" title="点击复制">
+    `;
+    emailItem.addEventListener('click', () => {
+        const text = emailItem.querySelector('.about-me-contact-text').textContent;
+        copyToClipboard(text);
+    });
+    footer.appendChild(emailItem);
+    
+    // 电话信息
+    const phoneItem = document.createElement('div');
+    phoneItem.className = 'about-me-contact-item';
+    phoneItem.innerHTML = `
+        <p class="about-me-contact-text">176 1006 0567</p>
+        <img src="./images/copy-icon.png" class="about-me-copy-icon" alt="复制" title="点击复制">
+    `;
+    phoneItem.addEventListener('click', () => {
+        const text = phoneItem.querySelector('.about-me-contact-text').textContent;
+        copyToClipboard(text);
+    });
+    footer.appendChild(phoneItem);
+    
+    aboutMeContent.appendChild(footer);
+    
+    // 显示模态窗口
+    aboutMeOverlay.classList.add('active');
+    aboutMeModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// 关闭关于我窗口
+function closeAboutMe() {
+    aboutMeOverlay.classList.remove('active');
+    aboutMeModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// 复制到剪贴板功能
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            // 显示复制成功提示
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 8px;
+                font-size: 16px;
+                z-index: 9999;
+                pointer-events: none;
+                animation: fadeInOut 2s ease-in-out;
+            `;
+            notification.textContent = '已复制到剪贴板';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        });
+    }
+}
+
+// 点击遮罩关闭关于我窗口
+aboutMeOverlay.addEventListener('click', closeAboutMe);
+
+// 防止点击modal内容区域时关闭
+aboutMeModal.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// 添加 fadeInOut 动画样式
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInOut {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+        20% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        80% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+    }
+`;
+document.head.appendChild(style);

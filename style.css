@@ -1122,3 +1122,220 @@ body {
     background-repeat: no-repeat;
     flex-shrink: 0;
 }
+
+/* ===== 关于我 - 职业经历窗口样式 ===== */
+
+/* 关于我遮罩层 */
+.about-me-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 300;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.about-me-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* 关于我模态窗口 */
+.about-me-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90vw, 540px);
+    max-height: min(90vh, 85vh);
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    z-index: 301;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: none;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.about-me-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* 关于我内容容器 */
+.about-me-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+    box-sizing: border-box;
+    background: transparent;
+}
+
+/* 关于我 - 顶部背景图 */
+.about-me-header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* 关于我 - 主要内容区域 */
+.about-me-body {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: clamp(12px, 5%, 24px);
+    box-sizing: border-box;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 90%, #FFFFFF 100%);
+    border-left: 1px solid #189CEC;
+    border-right: 1px solid #189CEC;
+    border-top: none;
+    gap: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+}
+
+/* 关于我 - 标题和日期容器 */
+.about-me-title-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(9px, 3%, 12px);
+    margin-bottom: clamp(9px, 3%, 12px);
+}
+
+/* 头像 */
+.about-me-avatar {
+    width: clamp(36px, 6vw, 45px);
+    height: clamp(36px, 6vw, 45px);
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+/* 标题信息容器 */
+.about-me-title-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1.5px, 0.375%, 3px);
+    flex: 1;
+}
+
+/* 职位标题 */
+.about-me-position {
+    color: #000000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(12px, 1.875vw, 15px);
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+}
+
+/* 任职日期 */
+.about-me-date {
+    color: #189CEC;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(10.5px, 1.5vw, 15px);
+    font-weight: 400;
+    text-align: left;
+    margin: 0;
+}
+
+/* 职业描述文本 */
+.about-me-description {
+    color: #000000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(9.75px, 1.35vw, 15px);
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: justify;
+    margin: clamp(4.5px, 2%, 6px) 0 0 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    flex-shrink: 0;
+}
+
+/* 关于我 - 底部信息区域 */
+.about-me-footer {
+    width: 100%;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 15px);
+    border: none;
+    border-top: 1px solid #189CEC;
+    border-radius: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: clamp(12px, 3%, 21px) clamp(9px, 3%, 24px);
+    box-sizing: border-box;
+    gap: clamp(6px, 1.5%, 12px);
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* 底部信息容器 */
+.about-me-contact-item {
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: clamp(2.25px, 0.375%, 3px) clamp(9px, 2.25%, 13.5px) clamp(2.25px, 0.375%, 3px) clamp(9px, 1.5%, 12px);
+    border-radius: 15px;
+    gap: clamp(6px, 1.125%, 9px);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.about-me-contact-item:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* 底部文本 */
+.about-me-contact-text {
+    color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(9px, 1.35vw, 15px);
+    font-weight: 400;
+    text-align: left;
+    line-height: clamp(18px, 2.25vw, 24px);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 底部复制图标 */
+.about-me-copy-icon {
+    width: clamp(12px, 1.5vw, 15px);
+    height: clamp(12px, 1.5vw, 15px);
+    flex-shrink: 0;
+    object-fit: contain;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.about-me-copy-icon:hover {
+    opacity: 1;
+}
