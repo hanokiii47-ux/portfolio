@@ -20,7 +20,6 @@
 
     function hideLoader() {
         screen.classList.add('hide');
-        // 动画结束后彻底移除，释放内存
         screen.addEventListener('transitionend', () => screen.remove(), { once: true });
     }
 
@@ -30,16 +29,16 @@
     const total     = allImgs.length + allVideos.length;
 
     if (total === 0) {
-        setProgress(100);
+        // 等 window.load 再结束，确保 JS 也初始化完毕
+        window.addEventListener('load', () => setProgress(100));
         return;
     }
 
     let loaded = 0;
-    const step = 100 / total;
 
     function onLoad() {
         loaded++;
-        // 资源加载进度占 0-90%，留 10% 给 JS 初始化
+        // 图片/视频进度占 0~90%
         setProgress(loaded / total * 90);
     }
 
@@ -59,15 +58,10 @@
         }
     });
 
-    // 模拟 JS 初始化阶段：DOMContentLoaded 后推到 95%，window.load 后推到 100%
-    document.addEventListener('DOMContentLoaded', () => setProgress(Math.max(progress, 50)));
+    // window.load 触发时所有资源已就绪，推到 100%
     window.addEventListener('load', () => {
-        setProgress(95);
-        setTimeout(() => setProgress(100), 200);
+        setProgress(100);
     });
-
-    // 兜底：最多等 6 秒强制结束，避免卡死
-    setTimeout(() => setProgress(100), 6000);
 })();
 
 // ===== 手电筒光圈效果 =====
