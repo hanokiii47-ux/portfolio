@@ -9,7 +9,7 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: #E1E8EA;
+    background: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +33,7 @@
 
 .loading-mirror-wrap {
     position: relative;
-    width: 22vw;
+    width: 11vw;
     aspect-ratio: 361.7 / 294;
 }
 
@@ -86,7 +86,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.6vw;
-    width: 22vw;
+    width: 11vw;
 }
 
 .loading-bar-track {
