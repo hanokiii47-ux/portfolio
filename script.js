@@ -294,7 +294,7 @@ function openDetail(cardElement) {
             container23.className = 'detail-container-23';
             container23.innerHTML = `
                 <!-- 背景图片 - 容器 402473 -->
-                <img src="https://p0.meituan.net/ingee/59b0308d75f82720ee32689e1b65879c822764.png" class="container-23-bg" alt="">
+                <img src="./assets/images/59b0308d75f82720ee32689e1b65879c822764.png" class="container-23-bg" alt="">
                 
                 <!-- 中间灰色遮罩容器 - image 容器 -->
                 <div class="container-23-middle-overlay">
@@ -302,7 +302,7 @@ function openDetail(cardElement) {
                 </div>
                 
                 <!-- 底部图片 - 容器 402475 -->
-                <img src="https://p0.meituan.net/ingee/fec8f64a81f5326abb6b1ad28d211cbe5962.png" class="container-23-bottom" alt="">
+                <img src="./assets/images/fec8f64a81f5326abb6b1ad28d211cbe5962.png" class="container-23-bottom" alt="">
             `;
             currentDetailBody.appendChild(container23);
         } else if (item === 'features') {

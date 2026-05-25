@@ -174,7 +174,7 @@ body {
     height: 100%;
     top: 0;
     left: 0;
-    background: url('https://p0.meituan.net/ingee/2a849bcdae499aa2a306686e2131c2d2758567.png');
+    background: url('./assets/images/2a849bcdae499aa2a306686e2131c2d2758567.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -188,7 +188,7 @@ body {
     height: 100%;
     top: 0;
     left: 0;
-    background: url('https://p0.meituan.net/ingee/40a35d0f820a4190e9e16ebb1aab1bbb773274.png');
+    background: url('./assets/images/40a35d0f820a4190e9e16ebb1aab1bbb773274.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
