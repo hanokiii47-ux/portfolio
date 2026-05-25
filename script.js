@@ -1,3 +1,75 @@
+// ===== 加载进度控制 =====
+(function () {
+    const screen = document.getElementById('loading-screen');
+    const fill   = document.getElementById('loading-bar-fill');
+    const label  = document.getElementById('loading-percent');
+
+    let progress = 0;
+    let finished = false;
+
+    function setProgress(val) {
+        progress = Math.min(Math.max(val, progress), 100);
+        fill.style.width  = progress + '%';
+        label.textContent = Math.round(progress) + '%';
+        if (progress >= 100 && !finished) {
+            finished = true;
+            // 稍等 300ms 让进度条跑满，再淡出
+            setTimeout(hideLoader, 300);
+        }
+    }
+
+    function hideLoader() {
+        screen.classList.add('hide');
+        // 动画结束后彻底移除，释放内存
+        screen.addEventListener('transitionend', () => screen.remove(), { once: true });
+    }
+
+    // --- 统计页面内所有需要加载的资源 ---
+    const allImgs   = Array.from(document.images);
+    const allVideos = Array.from(document.querySelectorAll('video[src]'));
+    const total     = allImgs.length + allVideos.length;
+
+    if (total === 0) {
+        setProgress(100);
+        return;
+    }
+
+    let loaded = 0;
+    const step = 100 / total;
+
+    function onLoad() {
+        loaded++;
+        // 资源加载进度占 0-90%，留 10% 给 JS 初始化
+        setProgress(loaded / total * 90);
+    }
+
+    allImgs.forEach(img => {
+        if (img.complete) { onLoad(); }
+        else {
+            img.addEventListener('load',  onLoad, { once: true });
+            img.addEventListener('error', onLoad, { once: true });
+        }
+    });
+
+    allVideos.forEach(video => {
+        if (video.readyState >= 1) { onLoad(); }
+        else {
+            video.addEventListener('loadedmetadata', onLoad, { once: true });
+            video.addEventListener('error',          onLoad, { once: true });
+        }
+    });
+
+    // 模拟 JS 初始化阶段：DOMContentLoaded 后推到 95%，window.load 后推到 100%
+    document.addEventListener('DOMContentLoaded', () => setProgress(Math.max(progress, 50)));
+    window.addEventListener('load', () => {
+        setProgress(95);
+        setTimeout(() => setProgress(100), 200);
+    });
+
+    // 兜底：最多等 6 秒强制结束，避免卡死
+    setTimeout(() => setProgress(100), 6000);
+})();
+
 // ===== 手电筒光圈效果 =====
 const revealLayer = document.querySelector('.background-reveal');
 const glowLayer = document.querySelector('.glow-layer');
