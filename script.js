@@ -660,6 +660,15 @@ navContact.addEventListener('mouseleave', function() {
     wechatPopup.classList.remove('show');
 });
 
+// 联系我弹出卡片 - 点击复制邮箱/手机号
+navContact.querySelectorAll('.wechat-contact-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const text = item.getAttribute('data-copy');
+        copyToClipboard(text);
+    });
+});
+
 // ===== 关于我窗口逻辑 =====
 
 // 获取关于我相关元素
