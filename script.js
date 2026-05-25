@@ -1,4 +1,4 @@
-// ===== 加载进度控制 =====
+// ===== 加载进度控制（只等首页资源，项目图片按需加载）=====
 (function () {
     const screen = document.getElementById('loading-screen');
     const fill   = document.getElementById('loading-bar-fill');
@@ -13,7 +13,6 @@
         label.textContent = Math.round(progress) + '%';
         if (progress >= 100 && !finished) {
             finished = true;
-            // 稍等 300ms 让进度条跑满，再淡出
             setTimeout(hideLoader, 300);
         }
     }
@@ -23,13 +22,14 @@
         screen.addEventListener('transitionend', () => screen.remove(), { once: true });
     }
 
-    // --- 统计页面内所有需要加载的资源 ---
-    const allImgs   = Array.from(document.images);
-    const allVideos = Array.from(document.querySelectorAll('video[src]'));
-    const total     = allImgs.length + allVideos.length;
+    // 只统计首页静态 HTML 里的图片（排除项目详情里动态插入的图）
+    // 项目图片路径特征：项目1/ 项目2/ 项目3-2/ 案例4/ 案例/ 案例2/ 222/
+    const projectPattern = /\/(项目|案例|222)\//;
+
+    const allImgs = Array.from(document.images).filter(img => !projectPattern.test(img.src));
+    const total   = allImgs.length;
 
     if (total === 0) {
-        // 等 window.load 再结束，确保 JS 也初始化完毕
         window.addEventListener('load', () => setProgress(100));
         return;
     }
@@ -38,8 +38,7 @@
 
     function onLoad() {
         loaded++;
-        // 图片/视频进度占 0~90%
-        setProgress(loaded / total * 90);
+        setProgress(loaded / total * 100);
     }
 
     allImgs.forEach(img => {
@@ -48,19 +47,6 @@
             img.addEventListener('load',  onLoad, { once: true });
             img.addEventListener('error', onLoad, { once: true });
         }
-    });
-
-    allVideos.forEach(video => {
-        if (video.readyState >= 1) { onLoad(); }
-        else {
-            video.addEventListener('loadedmetadata', onLoad, { once: true });
-            video.addEventListener('error',          onLoad, { once: true });
-        }
-    });
-
-    // window.load 触发时所有资源已就绪，推到 100%
-    window.addEventListener('load', () => {
-        setProgress(100);
     });
 })();
 
