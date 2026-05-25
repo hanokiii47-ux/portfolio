@@ -689,14 +689,14 @@ function openAboutMe() {
     
     // 头像2-1 - 字节1
     const avatar2_1 = document.createElement('img');
-    avatar2_1.src = 'file:///Users/hanokiw/Desktop/prot222/头像/矩形%2035052@1.5x.png';
+    avatar2_1.src = './images/avatar1.png';
     avatar2_1.className = 'about-me-avatar';
     avatar2_1.alt = '字节头像1';
     avatarContainer2.appendChild(avatar2_1);
     
     // 头像2-2 - 字节2
     const avatar2_2 = document.createElement('img');
-    avatar2_2.src = 'file:///Users/hanokiw/Desktop/prot222/头像/矩形%2035053@1.5x.png';
+    avatar2_2.src = './images/avatar2.png';
     avatar2_2.className = 'about-me-avatar';
     avatar2_2.alt = '字节头像2';
     avatarContainer2.appendChild(avatar2_2);
