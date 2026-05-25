@@ -46,6 +46,7 @@
     transform-origin: center bottom;
     animation: waveHandRhythm 1.8s ease-in-out infinite;
     object-fit: contain;
+    z-index: 2;
 }
 
 .lm-2 {
@@ -54,7 +55,6 @@
     left: 19.75%;
     top: 4.08%;
     object-fit: contain;
-    animation: loadingBob 2.4s ease-in-out infinite;
 }
 
 .lm-3 {
@@ -73,12 +73,9 @@
     transform-origin: center bottom;
     animation: waveHandRhythm 1.8s ease-in-out infinite 0.15s;
     object-fit: contain;
+    z-index: 2;
 }
 
-@keyframes loadingBob {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-4%); }
-}
 
 /* 进度条区域 */
 .loading-bar-wrap {
