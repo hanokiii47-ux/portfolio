@@ -177,6 +177,67 @@ function triggerEntranceAnimations() {
             }
         );
     }, cardsContainer);
+
+    // 入场动画结束后，静默预加载项目图片
+    setTimeout(preloadProjectAssets, 1200);
+}
+
+// ===== 项目图片预加载（首页入场后静默执行）=====
+function preloadProjectAssets() {
+    // 所有项目的静态图片（按打开频率排序：项目1优先）
+    const projectImages = [
+        // 项目1
+        './项目1/1@1.5x.jpg','./项目1/2@1.5x.jpg','./项目1/3@1.5x.jpg',
+        './项目1/4@1.5x.jpg','./项目1/5@1.5x.jpg','./项目1/6@1.5x.jpg',
+        './项目1/7@1.5x.jpg','./项目1/8@1.5x.jpg','./项目1/9@1.5x.jpg',
+        './项目1/10@1.5x.jpg','./项目1/11@1.5x.jpg','./项目1/13@1.5x.jpg',
+        './项目1/14@1.5x.jpg','./项目1/15@1.5x.jpg',
+        // 项目1 特性区
+        './案例/案例3.webp',
+        // 项目2
+        './项目2/16@1.5x.jpg','./项目2/17@1.5x.jpg','./项目2/18@1.5x.jpg',
+        './项目2/19@1.5x.jpg','./项目2/20@1.5x.jpg','./项目2/21@1.5x.jpg',
+        './项目2/22@1.5x.jpg','./项目2/24@1.5x.jpg','./项目2/25@1.5x.jpg',
+        './项目2/26@1.5x.jpg','./项目2/28@1.5x.jpg','./项目2/29@1.5x.jpg',
+        // 项目2 container-23
+        './assets/images/59b0308d75f82720ee32689e1b65879c822764.webp',
+        './assets/images/fec8f64a81f5326abb6b1ad28d211cbe5962.webp',
+        // 项目3
+        './项目3-2/30@1.5x.jpg','./项目3-2/31@1.5x.jpg','./项目3-2/32@1.5x.jpg',
+        './项目3-2/33@1.5x.jpg','./项目3-2/34@1.5x.jpg','./项目3-2/35@1.5x.jpg',
+        // 案例4
+        './案例4/36@1.5x.jpg','./案例4/37@1.5x.jpg','./案例4/38@1.5x.jpg',
+        './案例4/39@1.5x.jpg','./案例4/40@1.5x.jpg','./案例4/41@1.5x.jpg',
+        './案例4/42@1.5x.jpg','./案例4/44@1.5x.jpg','./案例4/45@1.5x.jpg',
+        './案例4/48@1.5x.jpg',
+        // 轮播图片
+        './222/游园.webp','./222/美发.webp',
+    ];
+
+    // 用 requestIdleCallback 在浏览器空闲时分批加载，不抢占主线程
+    let index = 0;
+    const BATCH = 3; // 每批加载3张
+
+    function loadBatch(deadline) {
+        while (index < projectImages.length && (deadline.timeRemaining() > 5 || deadline.didTimeout)) {
+            const img = new Image();
+            img.src = projectImages[index];
+            index++;
+            if (index % BATCH === 0) break; // 每批最多3张，让出控制权
+        }
+        if (index < projectImages.length) {
+            requestIdleCallback(loadBatch, { timeout: 2000 });
+        }
+    }
+
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadBatch, { timeout: 2000 });
+    } else {
+        // 降级：每200ms加载一张
+        projectImages.forEach((src, i) => {
+            setTimeout(() => { new Image().src = src; }, i * 200);
+        });
+    }
 }
 
 // ===== 卡片弹跳交互 (BounceCards 效果) =====
@@ -396,7 +457,7 @@ function openDetail(cardElement) {
 
                     <div class="detail-feature-item">
                         <div class="detail-feature-box">
-                            <img src="./案例/案例3.png" class="detail-feature-media" alt="">
+                            <img src="./案例/案例3.webp" class="detail-feature-media" alt="">
                         </div>
                         <div class="detail-feature-label">异形商品卡-摆脱常规</div>
                     </div>
@@ -415,8 +476,8 @@ function openDetail(cardElement) {
                 { type: 'video', src: './222/99d6ac7a0b12eba7058471622568d107.mp4' },
                 { type: 'video', src: './222/合成 1.mp4' },
                 { type: 'video', src: './222/大餐.mp4' },
-                { type: 'image', src: './222/游园.png' },
-                { type: 'image', src: './222/美发.png' }
+                { type: 'image', src: './222/游园.webp' },
+                { type: 'image', src: './222/美发.webp' }
             ];
             
             // 创建多组重复的项目（足够让新队列在画面外等待）
