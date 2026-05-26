@@ -19,7 +19,10 @@
 
     function hideLoader() {
         screen.classList.add('hide');
-        screen.addEventListener('transitionend', () => screen.remove(), { once: true });
+        screen.addEventListener('transitionend', () => {
+            screen.remove();
+            triggerEntranceAnimations();
+        }, { once: true });
     }
 
     // 只统计首页静态 HTML 里的图片（排除项目详情里动态插入的图）
@@ -147,6 +150,35 @@ function animate() {
 
 animate();
 
+// ===== 入场动画（loading 结束后触发）=====
+function triggerEntranceAnimations() {
+    // decoration-item 淡入
+    document.querySelectorAll('.decoration-item').forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            item.style.transition = 'opacity 0.24s ease-out, transform 0.24s ease-out';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 32);
+    });
+
+    // GSAP 卡片弹跳入场
+    gsap.context(() => {
+        gsap.fromTo(
+            '.card',
+            { scale: 0, opacity: 0 },
+            {
+                scale: 1,
+                opacity: 1,
+                stagger: 0.06,
+                ease: 'elastic.out(1, 0.6)',
+                delay: 0.1
+            }
+        );
+    }, cardsContainer);
+}
+
 // ===== 卡片弹跳交互 (BounceCards 效果) =====
 const cardsContainer = document.querySelector('.cards-container');
 const cards = document.querySelectorAll('.card');
@@ -158,21 +190,6 @@ const baseTransforms = [
     'rotate(3.0250329971313477deg)',
     'rotate(4.327476978302002deg)'
 ];
-
-// 初始化卡片 - 应用 GSAP 弹跳动画
-gsap.context(() => {
-    gsap.fromTo(
-        '.card',
-        { scale: 0, opacity: 0 },
-        {
-            scale: 1,
-            opacity: 1,
-            stagger: 0.06,
-            ease: 'elastic.out(1, 0.6)',
-            delay: 0.8
-        }
-    );
-}, cardsContainer);
 
 // 卡片 hover 效果 - 推开其他卡片
 cards.forEach((card, hoveredIdx) => {
@@ -539,32 +556,6 @@ document.querySelectorAll('.detail-nav-item').forEach(navItem => {
     });
 });
 
-// ===== 加载动画 =====
-window.addEventListener('load', () => {
-    document.querySelectorAll('.decoration-item').forEach((item, index) => {
-        item.style.animation = `fadeInUp 0.24s ease-out ${index * 0.032}s none`;
-        item.style.opacity = '0';
-        
-        // 动画完成后，设置最终状态并清除 animation
-        setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-            item.style.animation = '';
-        }, (index * 0.032 + 0.24) * 1000);
-    });
-
-    document.querySelectorAll('.card').forEach((card, index) => {
-        card.style.animation = `fadeInUp 0.24s ease-out ${0.12 + index * 0.04}s none`;
-        card.style.opacity = '0';
-        
-        // 动画完成后，设置最终状态并清除 animation
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-            card.style.animation = '';
-        }, (0.12 + index * 0.04 + 0.24) * 1000);
-    });
-});
 
 // ===== 云朵字浮动效果 =====
 const cloudClasses = ['deco-2', 'deco-3', 'deco-5', 'deco-6', 'deco-7', 'deco-8', 'deco-9', 'deco-10', 'deco-11'];
