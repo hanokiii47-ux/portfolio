@@ -341,7 +341,7 @@ body {
     align-items: center;
     padding: 0;
     z-index: 2;
-    gap: 7.22%;
+    gap: 10.83%;
 }
 
 /* 装饰元素容器 8 */
@@ -351,7 +351,7 @@ body {
     position: relative;
     max-width: 100%;
     margin: 0 auto;
-    transform: scale(0.88);
+    transform: scale(0.792);
     transform-origin: center top;
 }
 
