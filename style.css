@@ -737,8 +737,8 @@ body {
     position: absolute;
     width: 54.05%;
     height: 56.53%;
-    right: calc(9.06% - 4px - 44px);
-    bottom: calc(3.45% - 4px);
+    right: -12%;
+    bottom: 4%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
