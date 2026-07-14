@@ -249,7 +249,8 @@ const baseTransforms = [
     'rotate(-5.562417984008789deg)',
     'rotate(0deg)',
     'rotate(3.0250329971313477deg)',
-    'rotate(4.327476978302002deg)'
+    'rotate(4.327476978302002deg)',
+    'rotate(-3deg)'
 ];
 
 // 卡片 hover 效果 - 推开其他卡片
@@ -308,10 +309,11 @@ const detailNavContainer = document.querySelector('.detail-nav-container');
 
 // 详情模态框映射
 const detailModals = {
-    'card-1': document.querySelector('.detail-modal:not(.detail-modal-2):not(.detail-modal-3):not(.detail-modal-4)'),
+    'card-1': document.querySelector('.detail-modal:not(.detail-modal-2):not(.detail-modal-3):not(.detail-modal-4):not(.detail-modal-5)'),
     'card-2': document.querySelector('.detail-modal-2'),
     'card-3': document.querySelector('.detail-modal-3'),
-    'card-4': document.querySelector('.detail-modal-4')
+    'card-4': document.querySelector('.detail-modal-4'),
+    'card-5': document.querySelector('.detail-modal-5')
 };
 
 let currentDetailModal = null;
@@ -363,6 +365,21 @@ const cardDetails = {
         './项目3-2/35@1.5x.webp'
     ],
     'card-4': [
+        './案例4/36@1.5x.webp',
+        './案例4/37@1.5x.webp',
+        './案例4/38@1.5x.webp',
+        './案例4/39@1.5x.webp',
+        './案例4/40@1.5x.webp',
+        './案例4/41@1.5x.webp',
+        './案例4/42@1.5x.webp',
+        './案例4/43@1.5x.mp4',
+        './案例4/44@1.5x.webp',
+        './案例4/45@1.5x.webp',
+        './案例4/46@1.5x.mp4',
+        './案例4/48@1.5x.webp'
+    ],
+    // 项目5暂时复用项目4详情内容，后续替换为正式素材
+    'card-5': [
         './案例4/36@1.5x.webp',
         './案例4/37@1.5x.webp',
         './案例4/38@1.5x.webp',

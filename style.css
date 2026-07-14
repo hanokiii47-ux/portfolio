@@ -552,8 +552,8 @@ body {
 
 /* 卡片容器 - 组 6 */
 .cards-container {
-    width: 60.55%;
-    aspect-ratio: 1163.9 / 350.3;
+    width: 76.04%;
+    aspect-ratio: 1460 / 350.3;
     position: relative;
     display: flex;
     gap: 1.72%;
@@ -561,6 +561,8 @@ body {
     justify-content: flex-start;
     max-width: 100%;
     margin: 0 auto;
+    transform: scale(0.9);
+    transform-origin: center top;
 }
 
 .card {
@@ -583,12 +585,12 @@ body {
 }
 
 .card-1 {
-    width: 27.54%;
+    width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
     background: #FFFF1E;
     color: #000;
     transform: rotate(-5.562417984008789deg);
-    left: 1.14%;
+    left: 2.64%;
     top: 12.96%;
     padding: 0;
     overflow: visible;
@@ -617,8 +619,8 @@ body {
     position: absolute;
     width: 54.06%;
     height: 56.52%;
-    right: 15px;
-    bottom: -15px;
+    right: 4.68%;
+    bottom: -5.17%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -629,11 +631,11 @@ body {
 }
 
 .card-2 {
-    width: 27.48%;
+    width: 21.88%;
     aspect-ratio: 320 / 290;
     background: #0FE5A9;
     color: #000;
-    left: 23.88%;
+    left: 20.84%;
     top: 0%;
     padding: 0;
     overflow: visible;
@@ -656,8 +658,8 @@ body {
     position: absolute;
     width: 54.05%;
     height: 56.53%;
-    right: calc(9.06% - 4px);
-    bottom: calc(3.45% - 4px);
+    right: 7.81%;
+    bottom: 2.07%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -668,12 +670,12 @@ body {
 }
 
 .card-3 {
-    width: 27.54%;
+    width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
     background: #FFFFFF;
     color: #000;
     transform: rotate(3.0250329971313477deg);
-    left: 47.18%;
+    left: 39.04%;
     top: 12.96%;
     box-shadow: none;
     padding: 0;
@@ -697,8 +699,8 @@ body {
     position: absolute;
     width: 54.05%;
     height: 56.53%;
-    right: calc(9.06% - 4px);
-    bottom: calc(3.45% - 4px);
+    right: 7.81%;
+    bottom: 2.07%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -709,12 +711,12 @@ body {
 }
 
 .card-4 {
-    width: 27.54%;
+    width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
     background: #FF71E2;
     color: #000;
     transform: rotate(4.327476978302002deg);
-    left: 71.61%;
+    left: 57.24%;
     top: 3.45%;
     padding: 0;
     overflow: visible;
@@ -744,8 +746,29 @@ body {
     transition: transform 0.3s ease;
 }
 
+.card-4 .card4-deco-image {
+    right: 5%;
+}
+
 .card-4:hover .card4-deco-image {
+    transform: scale(1.15);
+}
+
+.card-5:hover .card4-deco-image {
     transform: scale(1.2);
+}
+
+.card-5 {
+    width: 21.93%;
+    aspect-ratio: 320.3 / 290.1;
+    background: #FF71E2;
+    color: #000;
+    transform: rotate(-3deg);
+    left: 75.44%;
+    top: 11%;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid #FFFF1E;
 }
 
 /* 动画定义 */
