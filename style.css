@@ -341,18 +341,16 @@ body {
     align-items: center;
     padding: 0;
     z-index: 2;
-    gap: 10.83%;
+    gap: clamp(32px, 5vh, 64px);
 }
 
 /* 装饰元素容器 8 */
 .decoration-container {
-    width: 84.43%;
+    width: 66.87%;
     aspect-ratio: 1621.1 / 294;
     position: relative;
     max-width: 100%;
     margin: 0 auto;
-    transform: scale(0.792);
-    transform-origin: center top;
 }
 
 .decoration-item {
@@ -552,7 +550,7 @@ body {
 
 /* 卡片容器 - 组 6 */
 .cards-container {
-    width: 76.04%;
+    width: 68.44%;
     aspect-ratio: 1460 / 350.3;
     position: relative;
     display: flex;
@@ -561,8 +559,6 @@ body {
     justify-content: flex-start;
     max-width: 100%;
     margin: 0 auto;
-    transform: scale(0.9);
-    transform-origin: center top;
 }
 
 .card {
@@ -750,6 +746,13 @@ body {
     right: 5%;
 }
 
+.card-5 .card4-deco-image {
+    width: 56.53%;
+    height: 59.10%;
+    right: 0%;
+    bottom: -5%;
+}
+
 .card-4:hover .card4-deco-image {
     transform: scale(1.15);
 }
@@ -761,14 +764,14 @@ body {
 .card-5 {
     width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
-    background: #FF71E2;
+    background: #FFFF1E;
     color: #000;
     transform: rotate(-3deg);
     left: 75.44%;
     top: 11%;
     padding: 0;
     overflow: visible;
-    border: 1px solid #FFFF1E;
+    border: 1px solid #FF71E2;
 }
 
 /* 动画定义 */

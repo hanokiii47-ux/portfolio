@@ -203,7 +203,7 @@ function preloadProjectAssets() {
         './assets/images/59b0308d75f82720ee32689e1b65879c822764.webp',
         './assets/images/fec8f64a81f5326abb6b1ad28d211cbe5962.webp',
         // 项目3
-        './项目3-2/30@1.5x.webp','./项目3-2/31@1.5x.webp','./项目3-2/32@1.5x.webp',
+        './项目3-2/30@1.5x.webp','./项目3-2/31@1.5x.jpg','./项目3-2/32@1.5x.webp',
         './项目3-2/33@1.5x.webp','./项目3-2/34@1.5x.webp','./项目3-2/35@1.5x.webp',
         // 案例4
         './案例4/36@1.5x.webp','./案例4/37@1.5x.webp','./案例4/38@1.5x.webp',
@@ -358,7 +358,7 @@ const cardDetails = {
     ],
     'card-3': [
         './项目3-2/30@1.5x.webp',
-        './项目3-2/31@1.5x.webp',
+        './项目3-2/31@1.5x.jpg',
         './项目3-2/32@1.5x.webp',
         './项目3-2/33@1.5x.webp',
         './项目3-2/34@1.5x.webp',
