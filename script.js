@@ -29,7 +29,10 @@
     // 项目图片路径特征：项目1/ 项目2/ 项目3-2/ 案例4/ 案例/ 案例2/ 222/
     const projectPattern = /\/(项目|案例|222)\//;
 
-    const allImgs = Array.from(document.images).filter(img => !projectPattern.test(img.src));
+    const allImgs = Array.from(document.images).filter(img => {
+        const src = img.getAttribute('src');
+        return src && !projectPattern.test(src);
+    });
     const total   = allImgs.length;
 
     if (total === 0) {
@@ -52,6 +55,16 @@
         }
     });
 })();
+
+// 将非首屏图片延迟到真正需要显示时再请求
+function loadDeferredImages(container) {
+    if (!container) return;
+
+    container.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+    });
+}
 
 // ===== 手电筒光圈效果 =====
 const revealLayer = document.querySelector('.background-reveal');
@@ -163,7 +176,14 @@ function triggerEntranceAnimations() {
         }, index * 32);
     });
 
-    // GSAP 卡片弹跳入场
+    // GSAP 卡片弹跳入场；完成前暂时关闭 Hover，避免入场动画被中断
+    cardsContainer.classList.add('is-entering');
+
+    const finishCardEntrance = () => {
+        gsap.set(cards, { scale: 1, opacity: 1 });
+        cardsContainer.classList.remove('is-entering');
+    };
+
     gsap.context(() => {
         gsap.fromTo(
             '.card',
@@ -173,57 +193,38 @@ function triggerEntranceAnimations() {
                 opacity: 1,
                 stagger: 0.06,
                 ease: 'elastic.out(1, 0.6)',
-                delay: 0.1
+                delay: 0.1,
+                onComplete: finishCardEntrance,
+                onInterrupt: finishCardEntrance
             }
         );
     }, cardsContainer);
 
-    // 入场动画结束后，静默预加载项目图片
-    setTimeout(preloadProjectAssets, 1200);
+    // 入场动画结束后只预热各项目首图，避免抢占首屏带宽
+    setTimeout(preloadInitialProjectAssets, 1800);
 }
 
-// ===== 项目图片预加载（首页入场后静默执行）=====
-function preloadProjectAssets() {
-    // 所有项目的静态图片（按打开频率排序：项目1优先）
+// ===== 项目首图预热（首页入场后静默执行）=====
+function preloadInitialProjectAssets() {
+    // 只加载每个项目的第一张详情图；其余资源在用户 Hover 或滚动时加载
     const projectImages = [
-        // 项目1
-        './项目1/1@1.5x.webp','./项目1/2@1.5x.webp','./项目1/3@1.5x.webp',
-        './项目1/4@1.5x.webp','./项目1/5@1.5x.webp','./项目1/6@1.5x.webp',
-        './项目1/7@1.5x.webp','./项目1/8@1.5x.webp','./项目1/9@1.5x.webp',
-        './项目1/10@1.5x.webp','./项目1/11@1.5x.webp','./项目1/13@1.5x.webp',
-        './项目1/14@1.5x.webp','./项目1/15@1.5x.webp',
-        // 项目1 特性区
-        './案例/案例3.webp',
-        // 项目2
-        './项目2/16@1.5x.webp','./项目2/17@1.5x.webp','./项目2/18@1.5x.webp',
-        './项目2/19@1.5x.webp','./项目2/20@1.5x.webp','./项目2/21@1.5x.webp',
-        './项目2/22@1.5x.webp','./项目2/24@1.5x.webp','./项目2/25@1.5x.webp',
-        './项目2/26@1.5x.webp','./项目2/28@1.5x.webp','./项目2/29@1.5x.webp',
-        // 项目2 container-23
-        './assets/images/59b0308d75f82720ee32689e1b65879c822764.webp',
-        './assets/images/fec8f64a81f5326abb6b1ad28d211cbe5962.webp',
-        // 项目3
-        './项目3-2/30@1.5x.webp','./项目3-2/31@1.5x.jpg','./项目3-2/32@1.5x.webp',
-        './项目3-2/33@1.5x.webp','./项目3-2/34@1.5x.webp','./项目3-2/35@1.5x.webp',
-        // 案例4
-        './案例4/36@1.5x.webp','./案例4/37@1.5x.webp','./案例4/38@1.5x.webp',
-        './案例4/39@1.5x.webp','./案例4/40@1.5x.webp','./案例4/41@1.5x.webp',
-        './案例4/42@1.5x.webp','./案例4/44@1.5x.webp','./案例4/45@1.5x.webp',
-        './案例4/48@1.5x.webp',
-        // 轮播图片
-        './222/游园.webp','./222/美发.webp',
+        './项目1/1@1.5x.webp',
+        './项目2/16@1.5x.webp',
+        './项目3-2/30@1.5x.webp',
+        './案例4/36@1.5x.webp',
+        './wsq/3-0.jpg'
     ];
 
-    // 用 requestIdleCallback 在浏览器空闲时分批加载，不抢占主线程
+    // 用 requestIdleCallback 在浏览器空闲时分批加载
     let index = 0;
-    const BATCH = 3; // 每批加载3张
+    const BATCH = 2;
 
     function loadBatch(deadline) {
         while (index < projectImages.length && (deadline.timeRemaining() > 5 || deadline.didTimeout)) {
             const img = new Image();
             img.src = projectImages[index];
             index++;
-            if (index % BATCH === 0) break; // 每批最多3张，让出控制权
+            if (index % BATCH === 0) break;
         }
         if (index < projectImages.length) {
             requestIdleCallback(loadBatch, { timeout: 2000 });
@@ -233,9 +234,9 @@ function preloadProjectAssets() {
     if ('requestIdleCallback' in window) {
         requestIdleCallback(loadBatch, { timeout: 2000 });
     } else {
-        // 降级：每200ms加载一张
+        // 降级：每300ms加载一张
         projectImages.forEach((src, i) => {
-            setTimeout(() => { new Image().src = src; }, i * 200);
+            setTimeout(() => { new Image().src = src; }, i * 300);
         });
     }
 }
@@ -295,6 +296,7 @@ cards.forEach((card, hoveredIdx) => {
                 x: 0,
                 rotation: parseFloat(baseTransforms[i].match(/-?\d+\.?\d*/)[0]),
                 scale: 1,
+                opacity: 1,
                 duration: 0.25,
                 ease: 'back.out(1.2)',
                 overwrite: 'auto'
@@ -319,6 +321,8 @@ const detailModals = {
 let currentDetailModal = null;
 let currentDetailBody = null;
 let currentDetailScrollTop = null;
+let currentMediaObserver = null;
+let currentCarouselAnimationFrame = null;
 
 // 卡片内容映射 - 项目1包含图片、特性展示、轮播和底部照片
 const cardDetails = {
@@ -378,27 +382,121 @@ const cardDetails = {
         './案例4/46@1.5x.mp4',
         './案例4/48@1.5x.webp'
     ],
-    // 项目5暂时复用项目4详情内容，后续替换为正式素材
+    // 项目5
     'card-5': [
-        './案例4/36@1.5x.webp',
-        './案例4/37@1.5x.webp',
-        './案例4/38@1.5x.webp',
-        './案例4/39@1.5x.webp',
-        './案例4/40@1.5x.webp',
-        './案例4/41@1.5x.webp',
-        './案例4/42@1.5x.webp',
-        './案例4/43@1.5x.mp4',
-        './案例4/44@1.5x.webp',
-        './案例4/45@1.5x.webp',
-        './案例4/46@1.5x.mp4',
-        './案例4/48@1.5x.webp'
+        './wsq/3-0.jpg',
+        './wsq/3-1.jpg',
+        './wsq/3-2.jpg',
+        './wsq/3-3 拷贝.jpg',
+        './wsq/3-3.jpg',
+        './wsq/3-4.jpg',
+        './wsq/3-6.jpg',
+        './wsq/3-7.jpg',
+        './wsq/3-8.jpg',
+        './wsq/3-9.jpg',
+        './wsq/3-10.jpg',
+        './wsq/3-11.jpg',
+        './wsq/3-12.jpg',
+        './wsq/3-13.jpg',
+        './wsq/3-14.jpg',
+        './wsq/3-15.jpg',
+        './wsq/3-16.jpg',
+        './wsq/3-20.jpg',
+        './wsq/3-21.jpg',
+        './wsq/3-22.jpg',
+        './wsq/3-23.jpg',
+        './wsq/3-24.jpg',
+        './wsq/3-25.jpg',
+        './wsq/3-26.jpg',
+        './wsq/3-28.jpg',
+        './wsq/3-29.png'
     ]
 };
+
+const preloadedProjectAssets = new Set();
+
+// 用户表现出点击意图时，提前加载该项目最前面的几张图片
+function preloadCardAssets(cardClass, limit = 3) {
+    const assets = (cardDetails[cardClass] || [])
+        .filter(item => typeof item === 'string' && /\.(avif|jpe?g|png|webp)$/i.test(item))
+        .slice(0, limit);
+
+    assets.forEach(src => {
+        if (preloadedProjectAssets.has(src)) return;
+        preloadedProjectAssets.add(src);
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = src;
+    });
+}
+
+cards.forEach(card => {
+    const cardClass = Array.from(card.classList).find(c => c.startsWith('card-'));
+    card.addEventListener('mouseenter', () => preloadCardAssets(cardClass), { once: true });
+    card.addEventListener('touchstart', () => preloadCardAssets(cardClass), { once: true, passive: true });
+});
+
+function stopDetailMedia() {
+    if (currentMediaObserver) {
+        currentMediaObserver.disconnect();
+        currentMediaObserver = null;
+    }
+
+    if (currentCarouselAnimationFrame) {
+        cancelAnimationFrame(currentCarouselAnimationFrame);
+        currentCarouselAnimationFrame = null;
+    }
+
+    Object.values(detailModals).forEach(modal => {
+        modal.querySelectorAll('video').forEach(video => video.pause());
+    });
+}
+
+// 视频接近详情视口时才请求；离开视口后暂停，减少流量和解码压力
+function setupDeferredVideos(scrollContainer) {
+    const videos = scrollContainer.querySelectorAll('video[data-src]');
+    if (!videos.length) return;
+
+    const loadAndPlay = video => {
+        if (!video.getAttribute('src')) {
+            video.src = video.dataset.src;
+            video.removeAttribute('data-src');
+            video.load();
+        }
+        const playPromise = video.play();
+        if (playPromise) playPromise.catch(() => {});
+    };
+
+    if (!('IntersectionObserver' in window)) {
+        videos.forEach(loadAndPlay);
+        return;
+    }
+
+    currentMediaObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+                loadAndPlay(video);
+            } else {
+                video.pause();
+            }
+        });
+    }, {
+        root: scrollContainer,
+        rootMargin: '500px 0px',
+        threshold: 0.01
+    });
+
+    videos.forEach(video => currentMediaObserver.observe(video));
+}
 
 // 打开详情页面
 function openDetail(cardElement) {
     const cardClass = Array.from(cardElement.classList).find(c => c.startsWith('card-'));
     const items = cardDetails[cardClass] || [];
+
+    stopDetailMedia();
+    loadDeferredImages(detailNavContainer);
     
     // 获取对应的详情模态框
     currentDetailModal = detailModals[cardClass];
@@ -426,7 +524,7 @@ function openDetail(cardElement) {
     currentDetailBody.innerHTML = '';
     
     // 添加所有图片和特性展示区域
-    items.forEach(item => {
+    items.forEach((item, itemIndex) => {
         if (item === 'empty-container') {
             // 插入空白容器 - 高度与第一个项目容器高度一致
             const emptyContainer = document.createElement('div');
@@ -441,15 +539,15 @@ function openDetail(cardElement) {
             container23.className = 'detail-container-23';
             container23.innerHTML = `
                 <!-- 背景图片 - 容器 402473 -->
-                <img src="./assets/images/59b0308d75f82720ee32689e1b65879c822764.webp" class="container-23-bg" alt="">
+                <img src="./assets/images/59b0308d75f82720ee32689e1b65879c822764.webp" class="container-23-bg" alt="" loading="lazy" decoding="async">
                 
                 <!-- 中间灰色遮罩容器 - image 容器 -->
                 <div class="container-23-middle-overlay">
-                    <video src="./案例2/冬战头图动效.mp4" class="container-23-video" autoplay loop muted playsinline></video>
+                    <video data-src="./案例2/冬战头图动效.mp4" class="container-23-video" preload="none" loop muted playsinline></video>
                 </div>
                 
                 <!-- 底部图片 - 容器 402475 -->
-                <img src="./assets/images/fec8f64a81f5326abb6b1ad28d211cbe5962.webp" class="container-23-bottom" alt="">
+                <img src="./assets/images/fec8f64a81f5326abb6b1ad28d211cbe5962.webp" class="container-23-bottom" alt="" loading="lazy" decoding="async">
             `;
             currentDetailBody.appendChild(container23);
         } else if (item === 'features') {
@@ -460,21 +558,21 @@ function openDetail(cardElement) {
                 <div class="detail-features-container">
                     <div class="detail-feature-item">
                         <div class="detail-feature-box">
-                            <video src="./案例/案例1.mp4" class="detail-feature-media" autoplay loop muted playsinline></video>
+                            <video data-src="./案例/案例1.mp4" class="detail-feature-media" preload="none" loop muted playsinline></video>
                         </div>
                         <div class="detail-feature-label">动态背景-营造氛围</div>
                     </div>
 
                     <div class="detail-feature-item">
                         <div class="detail-feature-box">
-                            <video src="./案例/案例2.mp4" class="detail-feature-media" autoplay loop muted playsinline></video>
+                            <video data-src="./案例/案例2.mp4" class="detail-feature-media" preload="none" loop muted playsinline></video>
                         </div>
                         <div class="detail-feature-label">轮播贴纸-特色全展示</div>
                     </div>
 
                     <div class="detail-feature-item">
                         <div class="detail-feature-box">
-                            <img src="./案例/案例3.webp" class="detail-feature-media" alt="">
+                            <img src="./案例/案例3.webp" class="detail-feature-media" alt="" loading="lazy" decoding="async">
                         </div>
                         <div class="detail-feature-label">异形商品卡-摆脱常规</div>
                     </div>
@@ -503,9 +601,9 @@ function openDetail(cardElement) {
             for (let i = 0; i < repeatCount; i++) {
                 carouselItems.forEach(carouselItem => {
                     if (carouselItem.type === 'video') {
-                        itemsHTML += `<div class="detail-carousel-item"><video src="${carouselItem.src}" class="detail-carousel-media" autoplay loop muted playsinline></video></div>`;
+                        itemsHTML += `<div class="detail-carousel-item"><video data-src="${carouselItem.src}" class="detail-carousel-media" preload="none" loop muted playsinline></video></div>`;
                     } else {
-                        itemsHTML += `<div class="detail-carousel-item"><img src="${carouselItem.src}" class="detail-carousel-media" alt=""></div>`;
+                        itemsHTML += `<div class="detail-carousel-item"><img src="${carouselItem.src}" class="detail-carousel-media" alt="" loading="lazy" decoding="async"></div>`;
                     }
                 });
             }
@@ -522,7 +620,7 @@ function openDetail(cardElement) {
             // 实现无缝循环 - 使用基于时间的动画
             const track = carouselSection.querySelector('.detail-carousel-track');
             const itemWidth = 11.2; // vw
-            const itemGap = 1.49; // vw
+            const itemGap = 2.24; // vw，原始间距的1.5倍
             const itemTotal = itemWidth + itemGap;
             const groupSize = carouselItems.length; // 每组项目数
             const groupTotal = groupSize * itemTotal; // 一组的总宽度
@@ -539,7 +637,7 @@ function openDetail(cardElement) {
                 const currentScroll = progress * totalDistance;
                 
                 track.style.transform = `translateX(calc(-${currentScroll}vw))`;
-                requestAnimationFrame(animateCarousel);
+                currentCarouselAnimationFrame = requestAnimationFrame(animateCarousel);
             }
             
             animateCarousel();
@@ -547,32 +645,42 @@ function openDetail(cardElement) {
             // 添加图片或视频
             if (item.endsWith('.mp4')) {
                 const video = document.createElement('video');
-                video.src = item;
-                video.autoplay = true;
+                video.dataset.src = item;
+                video.preload = 'none';
                 video.loop = true;
                 video.muted = true;
-                video.playsinline = true;
+                video.playsInline = true;
                 video.style.width = '100%';
                 video.style.height = 'auto';
                 video.style.display = 'block';
                 currentDetailBody.appendChild(video);
             } else {
                 const img = document.createElement('img');
-                img.src = item;
                 img.alt = '';
+                img.loading = itemIndex === 0 ? 'eager' : 'lazy';
+                img.decoding = 'async';
+                img.fetchPriority = itemIndex === 0 ? 'high' : 'low';
+                if (item === './项目1/8@1.5x.webp') {
+                    img.classList.add('detail-section-heading');
+                }
+                img.src = item;
                 currentDetailBody.appendChild(img);
             }
         }
     });
-    
+
     detailOverlay.classList.add('active');
     currentDetailModal.classList.add('active');
     detailNavContainer.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // 模态框显示后再观察视频，确保首屏可见视频能立即触发加载
+    setupDeferredVideos(currentDetailBody);
 }
 
 // 关闭详情页面
 function closeDetail() {
+    stopDetailMedia();
     detailOverlay.classList.remove('active');
     Object.values(detailModals).forEach(modal => {
         modal.classList.remove('active');
@@ -722,6 +830,7 @@ const navContact = document.getElementById('nav-contact');
 const wechatPopup = navContact.querySelector('.wechat-popup');
 
 navContact.addEventListener('mouseenter', function() {
+    loadDeferredImages(wechatPopup);
     wechatPopup.classList.add('show');
 });
 

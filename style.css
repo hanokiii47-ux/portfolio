@@ -561,6 +561,11 @@ body {
     margin: 0 auto;
 }
 
+/* 入场动画完成前不响应 Hover，避免 GSAP 动画互相中断 */
+.cards-container.is-entering .card {
+    pointer-events: none;
+}
+
 .card {
     position: absolute;
     border-radius: 12px;
@@ -728,6 +733,12 @@ body {
     top: 11.17%;
     object-fit: contain;
     z-index: 1;
+}
+
+/* 项目5入口图：与其他主图等高，宽度按素材比例自适应 */
+.card-5 .card4-main-image {
+    width: auto;
+    height: 81.61%;
 }
 
 /* 卡片4装饰图片 */
@@ -1035,6 +1046,11 @@ body {
     box-sizing: border-box;
 }
 
+/* 项目1业务场景标题：在原素材留白基础上增加约50%的顶部间距 */
+.detail-body img.detail-section-heading {
+    margin-top: 2.3vw;
+}
+
 /* 详情页面 - 容器@23 */
 .detail-container-23 {
     width: 100%;
@@ -1173,8 +1189,9 @@ body {
 
 .detail-carousel-track {
     display: flex;
-    gap: 1.49vw;
-    padding: 0 1.5vw;
+    gap: 2.24vw;
+    padding: 2.2vw 1.5vw;
+    align-items: center;
     will-change: transform;
 }
 
@@ -1189,6 +1206,15 @@ body {
     justify-content: center;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
+    transform-origin: center;
+    transition: transform 0.28s ease;
+}
+
+.detail-carousel-item:hover {
+    transform: scale(1.2);
+    z-index: 10;
 }
 
 .detail-carousel-media {
