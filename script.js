@@ -212,7 +212,7 @@ function preloadInitialProjectAssets() {
         './项目2/16@1.5x.webp',
         './项目3-2/30@1.5x.webp',
         './案例4/36@1.5x.webp',
-        './wsq/3-0.jpg'
+        './assets/optimized/project5/3-0.webp'
     ];
 
     // 用 requestIdleCallback 在浏览器空闲时分批加载
@@ -376,40 +376,40 @@ const cardDetails = {
         './案例4/40@1.5x.webp',
         './案例4/41@1.5x.webp',
         './案例4/42@1.5x.webp',
-        './案例4/43@1.5x.mp4',
+        './assets/optimized/videos/案例4/43@1.5x.mp4',
         './案例4/44@1.5x.webp',
         './案例4/45@1.5x.webp',
-        './案例4/46@1.5x.mp4',
+        './assets/optimized/videos/案例4/46@1.5x.mp4',
         './案例4/48@1.5x.webp'
     ],
     // 项目5
     'card-5': [
-        './wsq/3-0.jpg',
-        './wsq/3-1.jpg',
-        './wsq/3-2.jpg',
-        './wsq/3-3 拷贝.jpg',
-        './wsq/3-3.jpg',
-        './wsq/3-4.jpg',
-        './wsq/3-6.jpg',
-        './wsq/3-7.jpg',
-        './wsq/3-8.jpg',
-        './wsq/3-9.jpg',
-        './wsq/3-10.jpg',
-        './wsq/3-11.jpg',
-        './wsq/3-12.jpg',
-        './wsq/3-13.jpg',
-        './wsq/3-14.jpg',
-        './wsq/3-15.jpg',
-        './wsq/3-16.jpg',
-        './wsq/3-20.jpg',
-        './wsq/3-21.jpg',
-        './wsq/3-22.jpg',
-        './wsq/3-23.jpg',
-        './wsq/3-24.jpg',
-        './wsq/3-25.jpg',
-        './wsq/3-26.jpg',
-        './wsq/3-28.jpg',
-        './wsq/3-29.png'
+        './assets/optimized/project5/3-0.webp',
+        './assets/optimized/project5/3-1.webp',
+        './assets/optimized/project5/3-2.webp',
+        './assets/optimized/project5/3-3 拷贝.webp',
+        './assets/optimized/project5/3-3.webp',
+        './assets/optimized/project5/3-4.webp',
+        './assets/optimized/project5/3-6.webp',
+        './assets/optimized/project5/3-7.webp',
+        './assets/optimized/project5/3-8.webp',
+        './assets/optimized/project5/3-9.webp',
+        './assets/optimized/project5/3-10.webp',
+        './assets/optimized/project5/3-11.webp',
+        './assets/optimized/project5/3-12.webp',
+        './assets/optimized/project5/3-13.webp',
+        './assets/optimized/project5/3-14.webp',
+        './assets/optimized/project5/3-15.webp',
+        './assets/optimized/project5/3-16.webp',
+        './assets/optimized/project5/3-20.webp',
+        './assets/optimized/project5/3-21.webp',
+        './assets/optimized/project5/3-22.webp',
+        './assets/optimized/project5/3-23.webp',
+        './assets/optimized/project5/3-24.webp',
+        './assets/optimized/project5/3-25.webp',
+        './assets/optimized/project5/3-26.webp',
+        './assets/optimized/project5/3-28.webp',
+        './assets/optimized/project5/3-29.webp'
     ]
 };
 
@@ -543,7 +543,7 @@ function openDetail(cardElement) {
                 
                 <!-- 中间灰色遮罩容器 - image 容器 -->
                 <div class="container-23-middle-overlay">
-                    <video data-src="./案例2/冬战头图动效.mp4" class="container-23-video" preload="none" loop muted playsinline></video>
+                    <video data-src="./assets/optimized/videos/案例2/冬战头图动效.mp4" class="container-23-video" preload="none" loop muted playsinline></video>
                 </div>
                 
                 <!-- 底部图片 - 容器 402475 -->
@@ -558,14 +558,14 @@ function openDetail(cardElement) {
                 <div class="detail-features-container">
                     <div class="detail-feature-item">
                         <div class="detail-feature-box">
-                            <video data-src="./案例/案例1.mp4" class="detail-feature-media" preload="none" loop muted playsinline></video>
+                            <video data-src="./assets/optimized/videos/案例/案例1.mp4" class="detail-feature-media" preload="none" loop muted playsinline></video>
                         </div>
                         <div class="detail-feature-label">动态背景-营造氛围</div>
                     </div>
 
                     <div class="detail-feature-item">
                         <div class="detail-feature-box">
-                            <video data-src="./案例/案例2.mp4" class="detail-feature-media" preload="none" loop muted playsinline></video>
+                            <video data-src="./assets/optimized/videos/案例/案例2.mp4" class="detail-feature-media" preload="none" loop muted playsinline></video>
                         </div>
                         <div class="detail-feature-label">轮播贴纸-特色全展示</div>
                     </div>
@@ -586,11 +586,11 @@ function openDetail(cardElement) {
             
             // 创建足够多的队列以实现无缝衔接
             const carouselItems = [
-                { type: 'video', src: './222/411f4397fc3c5457b3f2b6f520fae49b.mp4' },
-                { type: 'video', src: './222/4fa7cf988e7ccd25fd857ffe99f73ce1.mp4' },
-                { type: 'video', src: './222/99d6ac7a0b12eba7058471622568d107.mp4' },
-                { type: 'video', src: './222/合成 1.mp4' },
-                { type: 'video', src: './222/大餐.mp4' },
+                { type: 'video', src: './assets/optimized/videos/222/411f4397fc3c5457b3f2b6f520fae49b.mp4' },
+                { type: 'video', src: './assets/optimized/videos/222/4fa7cf988e7ccd25fd857ffe99f73ce1.mp4' },
+                { type: 'video', src: './assets/optimized/videos/222/99d6ac7a0b12eba7058471622568d107.mp4' },
+                { type: 'video', src: './assets/optimized/videos/222/合成 1.mp4' },
+                { type: 'video', src: './assets/optimized/videos/222/大餐.mp4' },
                 { type: 'image', src: './222/游园.webp' },
                 { type: 'image', src: './222/美发.webp' }
             ];
