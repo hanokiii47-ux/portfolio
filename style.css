@@ -341,18 +341,16 @@ body {
     align-items: center;
     padding: 0;
     z-index: 2;
-    gap: 10.83%;
+    gap: clamp(32px, 5vh, 64px);
 }
 
 /* 装饰元素容器 8 */
 .decoration-container {
-    width: 84.43%;
+    width: 66.87%;
     aspect-ratio: 1621.1 / 294;
     position: relative;
     max-width: 100%;
     margin: 0 auto;
-    transform: scale(0.792);
-    transform-origin: center top;
 }
 
 .decoration-item {
@@ -552,8 +550,8 @@ body {
 
 /* 卡片容器 - 组 6 */
 .cards-container {
-    width: 60.55%;
-    aspect-ratio: 1163.9 / 350.3;
+    width: 68.44%;
+    aspect-ratio: 1460 / 350.3;
     position: relative;
     display: flex;
     gap: 1.72%;
@@ -561,6 +559,11 @@ body {
     justify-content: flex-start;
     max-width: 100%;
     margin: 0 auto;
+}
+
+/* 入场动画完成前不响应 Hover，避免 GSAP 动画互相中断 */
+.cards-container.is-entering .card {
+    pointer-events: none;
 }
 
 .card {
@@ -583,12 +586,12 @@ body {
 }
 
 .card-1 {
-    width: 27.54%;
+    width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
     background: #FFFF1E;
     color: #000;
     transform: rotate(-5.562417984008789deg);
-    left: 1.14%;
+    left: 2.64%;
     top: 12.96%;
     padding: 0;
     overflow: visible;
@@ -617,8 +620,8 @@ body {
     position: absolute;
     width: 54.06%;
     height: 56.52%;
-    right: 15px;
-    bottom: -15px;
+    right: 4.68%;
+    bottom: -5.17%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -629,11 +632,11 @@ body {
 }
 
 .card-2 {
-    width: 27.48%;
+    width: 21.88%;
     aspect-ratio: 320 / 290;
     background: #0FE5A9;
     color: #000;
-    left: 23.88%;
+    left: 20.84%;
     top: 0%;
     padding: 0;
     overflow: visible;
@@ -656,8 +659,8 @@ body {
     position: absolute;
     width: 54.05%;
     height: 56.53%;
-    right: calc(9.06% - 4px);
-    bottom: calc(3.45% - 4px);
+    right: 7.81%;
+    bottom: 2.07%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -668,12 +671,12 @@ body {
 }
 
 .card-3 {
-    width: 27.54%;
+    width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
     background: #FFFFFF;
     color: #000;
     transform: rotate(3.0250329971313477deg);
-    left: 47.18%;
+    left: 39.04%;
     top: 12.96%;
     box-shadow: none;
     padding: 0;
@@ -697,8 +700,8 @@ body {
     position: absolute;
     width: 54.05%;
     height: 56.53%;
-    right: calc(9.06% - 4px);
-    bottom: calc(3.45% - 4px);
+    right: 7.81%;
+    bottom: 2.07%;
     object-fit: contain;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -709,12 +712,12 @@ body {
 }
 
 .card-4 {
-    width: 27.54%;
+    width: 21.93%;
     aspect-ratio: 320.3 / 290.1;
     background: #FF71E2;
     color: #000;
     transform: rotate(4.327476978302002deg);
-    left: 71.61%;
+    left: 57.24%;
     top: 3.45%;
     padding: 0;
     overflow: visible;
@@ -732,6 +735,12 @@ body {
     z-index: 1;
 }
 
+/* 项目5入口图：与其他主图等高，宽度按素材比例自适应 */
+.card-5 .card4-main-image {
+    width: auto;
+    height: 81.61%;
+}
+
 /* 卡片4装饰图片 */
 .card4-deco-image {
     position: absolute;
@@ -744,8 +753,36 @@ body {
     transition: transform 0.3s ease;
 }
 
+.card-4 .card4-deco-image {
+    right: 5%;
+}
+
+.card-5 .card4-deco-image {
+    width: 56.53%;
+    height: 59.10%;
+    right: 0%;
+    bottom: -5%;
+}
+
 .card-4:hover .card4-deco-image {
+    transform: scale(1.15);
+}
+
+.card-5:hover .card4-deco-image {
     transform: scale(1.2);
+}
+
+.card-5 {
+    width: 21.93%;
+    aspect-ratio: 320.3 / 290.1;
+    background: #FFFF1E;
+    color: #000;
+    transform: rotate(-3deg);
+    left: 75.44%;
+    top: 11%;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid #FF71E2;
 }
 
 /* 动画定义 */
@@ -1009,6 +1046,11 @@ body {
     box-sizing: border-box;
 }
 
+/* 项目1业务场景标题：在原素材留白基础上增加约50%的顶部间距 */
+.detail-body img.detail-section-heading {
+    margin-top: 2.3vw;
+}
+
 /* 详情页面 - 容器@23 */
 .detail-container-23 {
     width: 100%;
@@ -1147,8 +1189,9 @@ body {
 
 .detail-carousel-track {
     display: flex;
-    gap: 1.49vw;
-    padding: 0 1.5vw;
+    gap: 2.24vw;
+    padding: 2.2vw 1.5vw;
+    align-items: center;
     will-change: transform;
 }
 
@@ -1163,6 +1206,15 @@ body {
     justify-content: center;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
+    transform-origin: center;
+    transition: transform 0.28s ease;
+}
+
+.detail-carousel-item:hover {
+    transform: scale(1.2);
+    z-index: 10;
 }
 
 .detail-carousel-media {
